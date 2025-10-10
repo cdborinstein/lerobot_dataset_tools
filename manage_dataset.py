@@ -8,7 +8,15 @@ REPO_ID = "INSERT-REPO-ID"
 
 
 def create_tag(tag_name, message):
-    """Create a version tag"""
+    """Create a version tag for the dataset
+
+    Args:
+        tag_name (str): Name of the tag to create (e.g., "v1.0")
+        message (str): Description message for the tag
+
+    Usage:
+        python manage_dataset.py create-tag v1.0 "Initial version"
+    """
     api = HfApi()
     api.create_tag(
         repo_id=REPO_ID,
@@ -20,7 +28,14 @@ def create_tag(tag_name, message):
     print(f"✓ Tag '{tag_name}' created successfully!")
 
 def list_versions():
-    """List all branches and tags"""
+    """List all branches and tags in the dataset repository
+
+    Args:
+        None
+
+    Usage:
+        python manage_dataset.py list-versions
+    """
     api = HfApi()
     refs = api.list_repo_refs(repo_id=REPO_ID, repo_type="dataset")
 
@@ -33,7 +48,14 @@ def list_versions():
         print(f"  - {tag.name}")
 
 def delete_tag(tag_name):
-    """Delete a tag"""
+    """Delete a version tag from the dataset
+
+    Args:
+        tag_name (str): Name of the tag to delete (e.g., "v1.0")
+
+    Usage:
+        python manage_dataset.py delete-tag v1.0
+    """
     api = HfApi()
     confirm = input(f"Delete tag '{tag_name}'? (yes/no): ")
     if confirm.lower() == 'yes':
@@ -41,7 +63,17 @@ def delete_tag(tag_name):
         print(f"✓ Deleted tag: {tag_name}")
 
 def list_episodes():
-    """List all episodes in the dataset"""
+    """List all episodes in the dataset with file counts
+
+    Args:
+        None
+
+    Returns:
+        list: Sorted list of episode numbers found in the dataset
+
+    Usage:
+        python manage_dataset.py list-episodes
+    """
     api = HfApi()
     files = api.list_repo_files(repo_id=REPO_ID, repo_type="dataset")
 
@@ -60,8 +92,16 @@ def list_episodes():
 def delete_episodes(episode_indices):
     """Delete specific episodes from the dataset
 
+    Deletes all associated files for each episode including:
+    - Parquet data file (1 per episode)
+    - Video files from all cameras (4 per episode)
+
     Args:
-        episode_indices: List of episode indices to delete (e.g., [0, 1, 5])
+        episode_indices (list of int): List of episode indices to delete (e.g., [0, 1, 5])
+
+    Usage:
+        python manage_dataset.py delete-episodes 0,1,5
+        python manage_dataset.py delete-episodes 10
     """
     api = HfApi()
 
