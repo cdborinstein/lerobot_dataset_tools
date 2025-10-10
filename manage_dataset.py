@@ -148,6 +148,67 @@ def delete_episodes(episode_indices):
     else:
         print("Cancelled.")
 
+"""
+Dataset Management Script for HuggingFace LeRobot Datasets
+
+This script provides command-line tools to manage versions and episodes of LeRobot datasets
+on HuggingFace Hub. It supports creating version tags, listing episodes, and deleting
+specific episodes from the dataset.
+
+Prerequisites:
+    - Login to HuggingFace: huggingface-cli login
+    - Set REPO_ID to your dataset repository
+
+Running from Terminal:
+    # Navigate to the script directory
+    cd /path/to/lerobot_dataset_tools
+
+    # Run the script with Python
+    python manage_dataset.py <command> [arguments]
+
+    # Or make it executable (Unix/Mac only)
+    chmod +x manage_dataset.py
+    ./manage_dataset.py <command> [arguments]
+
+Usage Examples:
+
+    # List all versions (branches and tags)
+    python manage_dataset.py list-versions
+
+    # List all episodes in the dataset
+    python manage_dataset.py list-episodes
+
+    # Create a version tag before making changes
+    python manage_dataset.py create-tag v1.0 "Original dataset with all episodes"
+
+    # Delete specific episodes (by episode number, comma-separated)
+    python manage_dataset.py delete-episodes 5,10,15
+
+    # Delete a single episode
+    python manage_dataset.py delete-episodes 42
+
+    # Delete a version tag
+    python manage_dataset.py delete-tag v1.0
+
+Workflow Example:
+    1. Create a tag to preserve current state:
+       python manage_dataset.py create-tag v1.0 "Before cleanup"
+
+    2. List episodes to see what you have:
+       python manage_dataset.py list-episodes
+
+    3. Delete unwanted episodes:
+       python manage_dataset.py delete-episodes 5,10,15,20
+
+    4. Create a new tag for the cleaned version:
+       python manage_dataset.py create-tag v1.1 "Removed bad episodes"
+
+Note:
+    - Deleting episodes modifies the main branch
+    - Tags preserve snapshots of the dataset at specific points
+    - Deleted episodes will leave gaps in numbering (e.g., 0-4, 6-9, etc.)
+"""
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
