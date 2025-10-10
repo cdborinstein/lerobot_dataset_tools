@@ -4,7 +4,7 @@ import sys
 # Login first (or use huggingface-cli login in terminal)
 # login()
 
-REPO_ID = "argus-systems/pickup-carrot"
+REPO_ID = "INSERT-REPO-ID"
 
 
 def create_tag(tag_name, message):
